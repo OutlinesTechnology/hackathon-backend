@@ -78,15 +78,13 @@ module.exports = {
         .catch(_ => reject())
     })
   },
-  getSubscriptions: () => {
+  getSubscriptions: postId => {
     return new Promise((resolve, reject) => {
       sql
-        .query('SELECT subscription FROM posts')
+        .query('SELECT subscription FROM posts WHERE id = $1', [postId])
         .then(subscriptionData =>
           resolve(
-            [...new Set(subscriptionData.rows.map(subs => subs.subscription).flat(2))].filter(
-              sd => sd
-            )
+            [...new Set(subscriptionData.rows.map(subs => subs.subscription))].filter(sd => sd)
           )
         )
         .catch(_ => reject())

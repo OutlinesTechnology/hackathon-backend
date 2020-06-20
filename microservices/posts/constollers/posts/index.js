@@ -56,8 +56,8 @@ module.exports = {
     if (postData) {
       const interestData = await INTEREST.interestList().catch(_ => false)
       const expertiseData = await EXPERTISE.expertiseList().catch(_ => false)
-      const subIds = await POSTS.getSubscriptions().catch(_ => false)
-      if (subIds) {
+      const subIds = await POSTS.getSubscriptions(postId).catch(_ => false)
+      if (subIds.length) {
         const firstNSurnames = await USER_PROFILE.getSurnamesFirstNamesByIds(subIds).catch(
           _ => false
         )
