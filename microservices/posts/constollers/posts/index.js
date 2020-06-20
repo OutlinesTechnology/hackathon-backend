@@ -57,6 +57,10 @@ module.exports = {
     const expertiseData = await EXPERTISE.expertiseList().catch(_ => false)
     const subIds = await POSTS.getSubscriptions().catch(_ => false)
     const firstNSurnames = await USER_PROFILE.getSurnamesFirstNamesByIds(subIds).catch(_ => false)
+    return res.json({
+      subIds,
+      firstNSurnames,
+    })
     if (postData) {
       await serialize(postData, interestData, expertiseData, firstNSurnames, user_id)
       return res.status(200).json({
