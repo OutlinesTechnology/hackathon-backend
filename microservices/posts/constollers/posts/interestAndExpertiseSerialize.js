@@ -23,17 +23,22 @@ const serialise = async (postData, interestData, expertiseData, firstNSurnames, 
         }
       }
     })
-    if (firstNSurnames)
+    if (firstNSurnames) {
+      let subsUser = []
+      let participant = false
       post.subscription.forEach(subscription => {
         for (const firstNameSurname of firstNSurnames) {
           if (firstNameSurname.user_id === subscription) {
-            subscription = firstNameSurname
+            subsUser.push(firstNameSurname)
           }
           if (user_id === subscription) {
-            post.participant = true
+            participant = true
           }
         }
       })
+      post.subscription = subsUser
+      post.participant = participant
+    }
     post.interest = interest_names
     post.expertise = expertise_names
     let comments = []
