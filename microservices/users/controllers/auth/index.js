@@ -1,5 +1,6 @@
 const USER = require('../../models/tables/users')
 const bcrypt = require('bcrypt')
+
 module.exports = {
   auth: async (req, res, next) => {
     await USER.getUser(req.body.email)

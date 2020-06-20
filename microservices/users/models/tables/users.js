@@ -1,16 +1,16 @@
-const sql = require('../index')
+const sql = require('../')
 
 module.exports = {
   createUser: userData => {
-    const { firstName, password, email, deparmentName } = userData
+    const { password, email } = userData
     return new Promise((resolve, reject) => {
       sql
-        .query(
-          'INSERT INTO users (firstname, email, department_name, password) VALUES($1,$2,$3,$4)',
-          [firstName, email, deparmentName, password]
-        )
-        .then(_ => {
-          resolve()
+        .query('INSERT INTO users (email, password) VALUES($1,$2) RETURNING user_id', [
+          email,
+          password,
+        ])
+        .then(userData => {
+          resolve(userData.rows[0].user_id)
         })
         .catch(e => reject(e))
     })
