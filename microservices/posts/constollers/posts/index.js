@@ -33,7 +33,7 @@ module.exports = {
     const postData = await POSTS.getPosts().catch(_ => false)
     const interestData = await INTEREST.interestList().catch(_ => false)
     const expertiseData = await EXPERTISE.expertiseList().catch(_ => false)
-    serialize(postData, interestData, expertiseData)
+    await serialize(postData, interestData, expertiseData)
     if (postData) {
       return res.status(200).json({
         status: true,
@@ -53,7 +53,7 @@ module.exports = {
     const interestData = await INTEREST.interestList().catch(_ => false)
     const expertiseData = await EXPERTISE.expertiseList().catch(_ => false)
     if (postData) {
-      serialize(postData, interestData, expertiseData)
+      await serialize(postData, interestData, expertiseData)
       return res.status(200).json({
         status: true,
         message: 'Success',

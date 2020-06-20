@@ -1,4 +1,7 @@
-const serialise = (postData, interestData, expertiseData) => {
+const COMMENTS = require('../../models/tables/comments')
+
+const serialise = async (postData, interestData, expertiseData) => {
+  const commentsPool = await COMMENTS.commentsList().catch(_ => false)
   postData.forEach(post => {
     let interest_names = []
     let expertise_names = []
@@ -20,7 +23,18 @@ const serialise = (postData, interestData, expertiseData) => {
     })
     post.interest = interest_names
     post.expertise = expertise_names
-    post.comments = post.comments ? post.comments.length : 0
+    let comments = []
+    if (commentsPool && post.comments) {
+      post.comments.forEach(id => {
+        for (const comment of commentsPool) {
+          if (comment.id === id) {
+            comments.push(comment)
+            break
+          }
+        }
+      })
+    }
+    post.comments = comments
   })
   return postData
 }

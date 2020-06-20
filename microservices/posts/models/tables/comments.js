@@ -19,6 +19,19 @@ module.exports = {
             .then(_ => resolve())
             .catch(_ => reject())
         })
+        .catch(e => {
+          console.log(e)
+          reject()
+        })
+    })
+  },
+  commentsList: () => {
+    return new Promise((resolve, reject) => {
+      sql
+        .query(
+          'SELECT comments.*, user_profile.first_name FROM comments INNER JOIN user_profile ON comments.user_id = user_profile.user_id'
+        )
+        .then(commentsData => resolve(commentsData.rows))
         .catch(_ => reject())
     })
   },
