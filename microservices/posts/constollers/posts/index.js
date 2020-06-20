@@ -2,6 +2,7 @@ const POSTS = require('../../models/tables/posts')
 const INTEREST = require('../../models/tables/interest')
 const EXPERTISE = require('../../models/tables/expertise')
 const DEPARTMENT = require('../../models/tables/department')
+const USER_PROFILE = require('../../models/tables/user_profile')
 
 const serialize = require('./interestAndExpertiseSerialize')
 
@@ -34,8 +35,6 @@ module.exports = {
     const postData = await POSTS.getPosts().catch(_ => false)
     const interestData = await INTEREST.interestList().catch(_ => false)
     const expertiseData = await EXPERTISE.expertiseList().catch(_ => false)
-    const subscriptionData = await POSTS.getSubscriptions().catch(_ => false)
-    console.log(subscriptionData)
     await serialize(postData, interestData, expertiseData)
     if (postData) {
       return res.status(200).json({
@@ -52,11 +51,14 @@ module.exports = {
   },
   listedPostById: async (req, res) => {
     const postId = req.params.postId
+    const user_id = res.locals.user_id
     const postData = await POSTS.getPostById(postId).catch(_ => false)
     const interestData = await INTEREST.interestList().catch(_ => false)
     const expertiseData = await EXPERTISE.expertiseList().catch(_ => false)
+    const subIds = await POSTS.getSubscriptions().catch(_ => false)
+    const firstNSurnames = await USER_PROFILE.getSurnamesFirstNamesByIds(subIds).catch(_ => false)
     if (postData) {
-      await serialize(postData, interestData, expertiseData)
+      await serialize(postData, interestData, expertiseData, firstNSurnames, user_id)
       return res.status(200).json({
         status: true,
         message: 'Success',

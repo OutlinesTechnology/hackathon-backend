@@ -1,7 +1,7 @@
 const COMMENTS = require('../../models/tables/comments')
 const VOTES = require('../../models/tables/votes')
 
-const serialise = async (postData, interestData, expertiseData) => {
+const serialise = async (postData, interestData, expertiseData, firstNSurnames, user_id) => {
   const commentsPool = await COMMENTS.commentsList().catch(_ => false)
   const votesPool = await VOTES.votesList().catch(_ => false)
   postData.forEach(post => {
@@ -23,6 +23,17 @@ const serialise = async (postData, interestData, expertiseData) => {
         }
       }
     })
+    if (firstNSurnames)
+      post.subscription.forEach(subscription => {
+        for (const firstNameSurname of firstNSurnames) {
+          if (firstNameSurname.user_id === subscription) {
+            subscription = firstNameSurname
+          }
+          if (user_id === subscription) {
+            post.participant = true
+          }
+        }
+      })
     post.interest = interest_names
     post.expertise = expertise_names
     let comments = []

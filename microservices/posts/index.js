@@ -2,6 +2,8 @@ const router = require('express').Router()
 
 const Routes = require('./routes')
 
-router.use('/', Routes)
+const { jwtVerify } = require('./validate')
+
+router.use('/', jwtVerify, Routes)
 
 module.exports = router

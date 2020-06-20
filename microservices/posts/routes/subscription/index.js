@@ -1,9 +1,9 @@
 const router = require('express').Router()
 
-const voteController = require('../../constollers/votes')
+const subscriptionController = require('../../constollers/subscription')
 
 const { jwtVerify } = require('../../validate')
 
-router.post('/', jwtVerify, voteController.doVote)
+router.post('/', jwtVerify, subscriptionController.subscribe)
 
 module.exports = router
