@@ -1,5 +1,6 @@
 const INTEREST = require('../../models/tables/interest')
 const EXPERTISE = require('../../models/tables/expertise')
+const DEPARTMENT = require('../../models/tables/department')
 
 module.exports = {
   expertiseandInterestList: async (req, res) => {
@@ -17,10 +18,17 @@ module.exports = {
         message: 'Server troubles',
       })
     }
+    const department = await DEPARTMENT.departmentList().catch(_ => false)
+    if (!department) {
+      return res.status(500).json({
+        status: false,
+        message: 'Server troubles',
+      })
+    }
     return res.status(200).json({
       status: true,
       message: 'Successfuly retrive expertise/interest',
-      data: { interest, expertise },
+      data: { interest, expertise, department },
     })
   },
 }

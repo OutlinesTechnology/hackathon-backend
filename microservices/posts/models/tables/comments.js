@@ -29,7 +29,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       sql
         .query(
-          'SELECT comments.*, user_profile.first_name FROM comments INNER JOIN user_profile ON comments.user_id = user_profile.user_id'
+          'SELECT comments.*, user_profile.first_name, user_profile.surname FROM comments INNER JOIN user_profile ON comments.user_id = user_profile.user_id'
         )
         .then(commentsData => resolve(commentsData.rows))
         .catch(_ => reject())

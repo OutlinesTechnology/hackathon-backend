@@ -48,12 +48,13 @@ module.exports = {
             }
           })
         if (expertiseData) {
-          const { first_name, department_name } = userData.data
+          const { first_name, department_name, surname } = userData.data
           return res.status(200).json({
             status: true,
             message: 'Success',
             data: {
               firstName: first_name,
+              surname,
               departmentName: department_name,
               expertises: expertiseData.expertiseData.map(expertise => expertise.expertise_name),
               interests: interestData.interestData.map(interest => interest.interest_name),

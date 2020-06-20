@@ -10,12 +10,12 @@ module.exports = {
     })
   },
   createProfile: profileData => {
-    const { firstName, deparmentName, interest, expertise, user_id } = profileData
+    const { firstName, deparmentName, interest, expertise, user_id, surname } = profileData
     return new Promise((resolve, reject) => {
       sql
         .query(
-          'INSERT INTO user_profile (first_name, department_name, interests, expertises, user_id) VALUES($1,$2,$3,$4, $5)',
-          [firstName, deparmentName, interest, expertise, user_id]
+          'INSERT INTO user_profile (first_name, department_name, interests, expertises, user_id, surname) VALUES($1,$2,$3,$4, $5, $6)',
+          [firstName, deparmentName, interest, expertise, user_id, surname]
         )
         .then(_ => resolve())
         .catch(e => reject(e))

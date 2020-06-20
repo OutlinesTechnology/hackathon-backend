@@ -10,7 +10,7 @@ const { signupEmailVerify } = require('../../mailer')
 module.exports = {
   singup: async (req, res) => {
     const userData = { email: req.body.email, password: bcrypt.hashSync(req.body.password, 10) }
-    let profileData = ({ firstName, deparmentName, interest, expertise } = req.body)
+    let profileData = ({ firstName, deparmentName, interest, expertise, surname } = req.body)
     const createUserResult = await USER.createUser(userData)
       .then(user_id => {
         return { status: true, user_id }
