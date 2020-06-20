@@ -83,7 +83,11 @@ module.exports = {
       sql
         .query('SELECT subscription FROM posts')
         .then(subscriptionData =>
-          resolve([...new Set(subscriptionData.rows.map(subs => subs.subscription).flat(2))])
+          resolve(
+            [...new Set(subscriptionData.rows.map(subs => subs.subscription).flat(2))].filter(
+              sd => sd
+            )
+          )
         )
         .catch(_ => reject())
     })
