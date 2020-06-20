@@ -28,6 +28,7 @@ interface SignUp {
   deparmentName: string
   expertise: number[]
   interest: number[]
+  surname: string
 }
 //response
 interface SignUpResponse {
@@ -75,6 +76,10 @@ interface interest_expertise_listResponse {
       id: number
       expertise_name: string
     }[]
+    department: {
+      id: number
+      department_name: string
+    }[]
   }
 }
 
@@ -95,6 +100,9 @@ interface postsResponse {
     comments: number
     interest: string[]
     expertise: string[]
+    votes : number
+    first_name : string
+    surname : string
   }
 }
 
@@ -124,7 +132,6 @@ interface postsCreateResponse {
 
 //-------------------------------------------------------
 
-
 //-------------------------------------------------------
 
 //http://localhost:3000/api/v1/posts/:postId
@@ -147,27 +154,27 @@ interface postsByIdResponse {
     budget: number
     commentBox: string
     comments: {
-      id : number
-      content : string
-      user_id : number
-      date : Date
-      first_name : string
+      id: number
+      content: string
+      user_id: number
+      date: Date
+      first_name: string
     }[]
-    department_name : string
-    first_name : string
+    department_name: string
+    first_name: string
+    surname : string
+    votes : number
   }
 }
 //-------------------------------------------------------
-
 
 //http://localhost:3000/api/v1/posts/comment
 //POST
 
 //request
 interface comment {
-  postId : number
-  content : string
-
+  postId: number
+  content: string
 }
 //response
 interface commentResponse {

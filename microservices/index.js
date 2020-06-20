@@ -1,4 +1,5 @@
 const router = require('express').Router()
+
 const usersMicroservice = require('./users')
 const postsMicroservice = require('./posts')
 

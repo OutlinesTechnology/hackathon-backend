@@ -34,6 +34,8 @@ module.exports = {
     const postData = await POSTS.getPosts().catch(_ => false)
     const interestData = await INTEREST.interestList().catch(_ => false)
     const expertiseData = await EXPERTISE.expertiseList().catch(_ => false)
+    const subscriptionData = await POSTS.getSubscriptions().catch(_ => false)
+    console.log(subscriptionData)
     await serialize(postData, interestData, expertiseData)
     if (postData) {
       return res.status(200).json({

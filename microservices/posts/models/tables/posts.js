@@ -67,4 +67,25 @@ module.exports = {
         .catch(_ => reject())
     })
   },
+  userSubscribe: (user_id, postId) => {
+    return new Promise((resolve, reject) => {
+      sql
+        .query('UPDATE posts set subscription = array_append(subscription, $1) WHERE id = $2', [
+          user_id,
+          postId,
+        ])
+        .then(_ => resolve())
+        .catch(_ => reject())
+    })
+  },
+  getSubscriptions: () => {
+    return new Promise((resolve, reject) => {
+      sql
+        .query('SELECT subscription FROM posts')
+        .then(subscriptionData =>
+          resolve([...new Set(subscriptionData.rows.map(subs => subs.subscription).flat(2))])
+        )
+        .catch(_ => reject())
+    })
+  },
 }

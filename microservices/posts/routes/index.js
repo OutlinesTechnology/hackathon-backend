@@ -10,4 +10,6 @@ router.use('/comment', commentRoutes)
 
 router.use('/vote', voteRoutes)
 
+router.use('/subscription')
+
 module.exports = router

@@ -12,7 +12,19 @@ module.exports = {
         .then(_ => {
           resolve()
         })
-        .catch(e=> {reject(e)})
+        .catch(e => {
+          reject(e)
+        })
+    })
+  },
+  votesList: () => {
+    return new Promise((resolve, reject) => {
+      sql
+        .query(
+          'SELECT votes.*, users.voteWeight FROM votes INNER JOIN users ON votes.user_id = users.user_id'
+        )
+        .then(votesData => resolve(votesData.rows))
+        .catch(_ => reject())
     })
   },
 }

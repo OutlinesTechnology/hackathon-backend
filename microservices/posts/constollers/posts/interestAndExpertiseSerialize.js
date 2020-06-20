@@ -1,7 +1,9 @@
 const COMMENTS = require('../../models/tables/comments')
+const VOTES = require('../../models/tables/votes')
 
 const serialise = async (postData, interestData, expertiseData) => {
   const commentsPool = await COMMENTS.commentsList().catch(_ => false)
+  const votesPool = await VOTES.votesList().catch(_ => false)
   postData.forEach(post => {
     let interest_names = []
     let expertise_names = []
@@ -33,6 +35,12 @@ const serialise = async (postData, interestData, expertiseData) => {
           }
         }
       })
+    }
+    let UP
+    let DOWN
+    if (post.votes && votesPool) {
+    } else {
+      post.votes = 0
     }
     post.comments = comments
   })
