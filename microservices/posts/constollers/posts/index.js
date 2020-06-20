@@ -53,12 +53,18 @@ module.exports = {
     const postId = req.params.postId
     const user_id = res.locals.user_id
     const postData = await POSTS.getPostById(postId).catch(_ => false)
-    const interestData = await INTEREST.interestList().catch(_ => false)
-    const expertiseData = await EXPERTISE.expertiseList().catch(_ => false)
-    const subIds = await POSTS.getSubscriptions().catch(_ => false)
-    const firstNSurnames = await USER_PROFILE.getSurnamesFirstNamesByIds(subIds).catch(_ => false)
     if (postData) {
-      await serialize(postData, interestData, expertiseData, firstNSurnames, user_id)
+      const interestData = await INTEREST.interestList().catch(_ => false)
+      const expertiseData = await EXPERTISE.expertiseList().catch(_ => false)
+      const subIds = await POSTS.getSubscriptions().catch(_ => false)
+      if (subIds) {
+        const firstNSurnames = await USER_PROFILE.getSurnamesFirstNamesByIds(subIds).catch(
+          _ => false
+        )
+        await serialize(postData, interestData, expertiseData, firstNSurnames, user_id)
+      } else {
+        await serialize(postData, interestData, expertiseData)
+      }
       return res.status(200).json({
         status: true,
         message: 'Success',
