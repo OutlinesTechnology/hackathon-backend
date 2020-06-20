@@ -1,6 +1,7 @@
 const POSTS = require('../../models/tables/posts')
 const INTEREST = require('../../models/tables/interest')
 const EXPERTISE = require('../../models/tables/expertise')
+const DEPARTMENT = require('../../models/tables/department')
 
 const serialize = require('./interestAndExpertiseSerialize')
 
@@ -64,6 +65,34 @@ module.exports = {
         status: false,
         message: 'Server troubles in posts service',
       })
+    }
+  },
+  listedPostByFiltr: async (req, res) => {
+    const { departmentName } = req.params
+    const departmentList = await DEPARTMENT.departmentList().catch(_ => false)
+    if (departmentList) {
+      let departmentId
+      departmentList.forEach(department => {
+        if (departmentName === department.department_name) {
+          departmentId = department.id
+        }
+      })
+      const postData = await POSTS.getPostsByDepartmentId(departmentId)
+      const interestData = await INTEREST.interestList().catch(_ => false)
+      const expertiseData = await EXPERTISE.expertiseList().catch(_ => false)
+      await serialize(postData, interestData, expertiseData)
+      if (postData) {
+        return res.status(200).json({
+          status: true,
+          message: 'Success',
+          data: postData,
+        })
+      } else {
+        return res.status(500).json({
+          status: false,
+          message: 'Server troubles in posts service',
+        })
+      }
     }
   },
 }

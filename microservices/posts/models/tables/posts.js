@@ -39,7 +39,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       sql
         .query(
-          'SELECT posts.id, posts.title, posts.comments,posts.interest,posts.expertise FROM posts INNER JOIN user_profile ON posts.user_id = user_profile.user_id'
+          'SELECT posts.id, posts.title, posts.comments,posts.interest,posts.expertise, user_profile.first_name, user_profile.surname FROM posts INNER JOIN user_profile ON posts.user_id = user_profile.user_id'
         )
         .then(postsData => resolve(postsData.rows))
         .catch(_ => reject())
@@ -51,6 +51,17 @@ module.exports = {
         .query(
           'SELECT p.id, p.type,p.title, p.idea_description, p.awaited_result, p.interest, p.expertise, p.budget, p.comment_box,p.comments, up.first_name,up.surname,dt.department_name FROM posts as p  INNER JOIN user_profile as up ON p.user_id = up.user_id LEFT JOIN  department_table as dt ON dt.id = p.department WHERE p.id = $1 ',
           [postID]
+        )
+        .then(postData => resolve(postData.rows))
+        .catch(_ => reject())
+    })
+  },
+  getPostsByDepartmentId: departmentId => {
+    return new Promise((resolve, reject) => {
+      sql
+        .query(
+          'SELECT posts.id, posts.title, posts.comments,posts.interest,posts.expertise, user_profile.first_name, user_profile.surname FROM posts INNER JOIN user_profile ON posts.user_id = user_profile.user_id WHERE department = $1',
+          [departmentId]
         )
         .then(postData => resolve(postData.rows))
         .catch(_ => reject())
