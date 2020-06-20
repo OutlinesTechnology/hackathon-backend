@@ -49,7 +49,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       sql
         .query(
-          'SELECT p.id, p.type,p.title, p.idea_description, p.awaited_result, p.interest, p.expertise, p.budget, p.comment_box,p.comments, up.first_name,up.surname dt.department_name FROM posts as p  INNER JOIN user_profile as up ON p.user_id = up.user_id LEFT JOIN  department_table as dt ON dt.id = p.department WHERE p.id = $1 ',
+          'SELECT p.id, p.type,p.title, p.idea_description, p.awaited_result, p.interest, p.expertise, p.budget, p.comment_box,p.comments, up.first_name,up.surname,dt.department_name FROM posts as p  INNER JOIN user_profile as up ON p.user_id = up.user_id LEFT JOIN  department_table as dt ON dt.id = p.department WHERE p.id = $1 ',
           [postID]
         )
         .then(postData => resolve(postData.rows))
