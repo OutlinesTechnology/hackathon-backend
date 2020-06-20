@@ -10,10 +10,11 @@ module.exports = {
           message: 'Success',
         }
       })
-      .catch(_ => {
+      .catch(e => {
         return {
           status: false,
           message: 'Server trouble in vote service',
+          error: e,
         }
       })
     return res.json(voteCreateResult)

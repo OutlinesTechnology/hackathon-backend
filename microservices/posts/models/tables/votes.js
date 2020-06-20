@@ -12,7 +12,7 @@ module.exports = {
         .then(_ => {
           resolve()
         })
-        .catch(_ => reject())
+        .catch(e=> {reject(e)})
     })
   },
 }
