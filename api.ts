@@ -146,10 +146,33 @@ interface postsByIdResponse {
     expertise: number[]
     budget: number
     commentBox: string
-    comments: number
+    comments: {
+      id : number
+      content : string
+      user_id : number
+      date : Date
+      first_name : string
+    }[]
     department_name : string
     first_name : string
   }
+}
+//-------------------------------------------------------
+
+
+//http://localhost:3000/api/v1/posts/comment
+//POST
+
+//request
+interface comment {
+  postId : number
+  content : string
+
+}
+//response
+interface commentResponse {
+  status: boolean
+  message: string
 }
 
 //-------------------------------------------------------
