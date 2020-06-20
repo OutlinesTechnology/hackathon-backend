@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  hackathon-backend:
+    build: .
+    container_name: hackathon-backend
+    image: hackathon-backend
+    restart: unless-stopped
+    depends_on:
+      - hackathon-postgres
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.example
+#    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; npm
+#    networks:
+#      - custom_network
+#      - custom_network_prod
+
+  hackathon-postgres:
+    container_name: hackathon-postgres
+    image: postgres:12
+    ports:
+      - "5432:5432"
+    volumes:
+      - /data/pg/data:/var/lib/postgresql/data
+#    env_file:
+#      - ../../docker/hackathon-backend/.env.example
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=UeTF51mL2020
+      - POSTGRES_DB=portal
